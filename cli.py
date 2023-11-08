@@ -2,13 +2,16 @@
 # the Tic-Tac-Toe game. This is where input and output happens.
 # For core game logic, see logic.py.
 
+import os
 import logging
-logging.basicConfig(filename='logs/game.log', level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
-logging.info(f"Player {player} made a move at row {row}, column {col}.")
+from logic import make_empty_board, get_winner, other_player
 
-from logic import make_empty_board,get_winner,other_player
+logs_dir = 'logs'
+if not os.path.exists(logs_dir):
+    os.makedirs(logs_dir)
 
-# Reminder to check all the tests
+logging.basicConfig(filename=os.path.join(logs_dir, 'game.log'), level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+
 
 def print_board(board):
     for i in range(3):
@@ -30,15 +33,23 @@ if __name__ == '__main__':
         print_board(board)
 
         print(f"Player {player}'s turn.")
-        row = int(input("Enter the row (0, 1, or 2): "))-1
-        col = int(input("Enter the column (0, 1, or 2): "))-1
+        try:
+            row = int(input("Enter the row (0, 1, or 2): ")) - 1
+            col = int(input("Enter the column (0, 1, or 2): ")) - 1
+        except ValueError:
+            print("Invalid input. Please enter a number between 0 and 2.")
+            continue
 
-        if board[row][col] is None:
-            board[row][col] = player
-            winner = get_winner(board)
-            player = other_player(player)
+        if 0 <= row <= 2 and 0 <= col <= 2:
+            if board[row][col] is None:
+                board[row][col] = player
+                logging.info(f"Player {player} made a move at row {row + 1}, column {col + 1}.")  # 记录玩家的移动
+                winner = get_winner(board)
+                player = other_player(player)
+            else:
+                print("Invalid move. That cell is already occupied.")
         else:
-            print("Invalid move. That cell is already occupied.")
+            print("Invalid input. Row and column numbers must be between 0 and 2.")
 
     print(f"Final board:")
     print_board(board)
@@ -46,4 +57,4 @@ if __name__ == '__main__':
     if winner:
         print(f"Player {winner} wins!")
     else:
-        print("It's a tie! Nobody wins.")
+        print("It's a tie ！Nobody wins.")
