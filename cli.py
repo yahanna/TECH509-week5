@@ -2,6 +2,10 @@
 # the Tic-Tac-Toe game. This is where input and output happens.
 # For core game logic, see logic.py.
 
+import logging
+logging.basicConfig(filename='logs/game.log', level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+logging.info(f"Player {player} made a move at row {row}, column {col}.")
+
 from logic import make_empty_board,get_winner,other_player
 
 # Reminder to check all the tests
