@@ -34,22 +34,22 @@ if __name__ == '__main__':
 
         print(f"Player {player}'s turn.")
         try:
-            row = int(input("Enter the row (0, 1, or 2): ")) - 1
-            col = int(input("Enter the column (0, 1, or 2): ")) - 1
+            row = int(input("Enter the row (1, 2, or 3): ")) - 1
+            col = int(input("Enter the column (1, 2, or 3): ")) - 1
         except ValueError:
-            print("Invalid input. Please enter a number between 0 and 2.")
+            print("Invalid input. Please enter a number between 1 and 3.")
             continue
-
+        print(row, col)
         if 0 <= row <= 2 and 0 <= col <= 2:
             if board[row][col] is None:
                 board[row][col] = player
-                logging.info(f"Player {player} made a move at row {row + 1}, column {col + 1}.")  # 记录玩家的移动
+                logging.info(f"Player {player} made a move at row {row}, column {col}.")  # 记录玩家的移动
                 winner = get_winner(board)
                 player = other_player(player)
             else:
                 print("Invalid move. That cell is already occupied.")
         else:
-            print("Invalid input. Row and column numbers must be between 0 and 2.")
+            print("Invalid input. Row and column numbers must be between 1 and 3.")
 
     print(f"Final board:")
     print_board(board)
